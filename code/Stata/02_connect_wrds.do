@@ -54,7 +54,7 @@ WHERE >> conditions (e.g. consol = 'C')
 	display "pulling dynamic Compustat data ... "
 	jdbc load, exec("SELECT gvkey, conm, cik, fyear, datadate, indfmt, sich, consol, popsrc, datafmt, curcd, curuscn, fyr, act, ap, aqc, aqs, acqsc, at, ceq, che, cogs, csho, dlc, dp, dpc, dt, dvpd, exchg, gdwl, ib, ibc, intan, invt, lct, lt, ni, capx, oancf, ivncf, fincf, oiadp, pi, ppent, ppegt, rectr, sale, seq, txt, xint, xsga, costat, mkvalt, prcc_f,recch, invch, apalch, txach, aoloch, gdwlip, spi, wdp, rcp FROM comp_na_daily_all.funda WHERE consol='C' and (indfmt='INDL' or indfmt='FS') and datafmt='STD' and popsrc='D'")
 *
-save "${path}\data\pulled\COMPUSTATdynamic.dta", replace
+	save "${path}\data\pulled\COMPUSTATdynamic.dta", replace
 *
 *Static Variables
 	clear
@@ -69,19 +69,8 @@ save "${path}\data\pulled\COMPUSTATdynamic.dta", replace
 	drop _merge
 *
 	save "${path}\data\pulled\cstat_us_sample.dta", replace
-		erase "${path}\data\pulled\\COMPUSTATdynamic.dta"
-		erase "${path}\data\pulled\COMPUSTATstatic.dta"
+	erase "${path}\data\pulled\\COMPUSTATdynamic.dta"
+	erase "${path}\data\pulled\COMPUSTATstatic.dta"
 *
-
-
-
-
-
-
-
-
-
-
-
-
-
+clear
+exit
