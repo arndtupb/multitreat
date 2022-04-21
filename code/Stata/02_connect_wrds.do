@@ -19,7 +19,7 @@ version 17
 	local classname "org.postgresql.Driver"
 	local url "jdbc:postgresql://wrds-pgdata.wharton.upenn.edu:9737/wrds?ssl=require&sslfactory=org.postgresql.ssl.NonValidatingFactory"
 	// DANGER ZONE
-	confirm file "${path}\config.csv"
+	*confirm file "${path}\config.csv"
 	import delimited "${path}\config.csv", varnames(nonames) rowrange(19)
 	local wrds_user = v2[1]
 	*display "`wrds_user'"
@@ -39,17 +39,17 @@ version 17
 ****************************************************
 ******              PULL DATA               ********
 ****************************************************
-*Compustat Data
-*jdbc showtables comp_na% 
-*jdbc describe comp_na_daily_all_funda_balancesheetitems
-*
-/*
-jdbc load, exec("SqlStmtList") >> SqlStmtList may be one valid SQL statement or a list of SQL statements separated by semicolons: 
-SELECT >> variables (e.g. gvkey & at)
-FROM >> table at wrds (e.g. comp_na_daily_all.funda)
-WHERE >> conditions (e.g. consol = 'C')
-*/
-*
+	*Compustat Data
+	*jdbc showtables comp_na% 
+	*jdbc describe comp_na_daily_all_funda_balancesheetitems
+	*
+	/*
+	jdbc load, exec("SqlStmtList") >> SqlStmtList may be one valid SQL statement or a list of SQL statements separated by semicolons: 
+	SELECT >> variables (e.g. gvkey & at)
+	FROM >> table at wrds (e.g. comp_na_daily_all.funda)
+	WHERE >> conditions (e.g. consol = 'C')
+	*/
+	*
 *Dynamic Variables
 	display "pulling dynamic Compustat data ... "
 	jdbc load, exec("SELECT gvkey, conm, cik, fyear, datadate, indfmt, sich, consol, popsrc, datafmt, curcd, curuscn, fyr, act, ap, aqc, aqs, acqsc, at, ceq, che, cogs, csho, dlc, dp, dpc, dt, dvpd, exchg, gdwl, ib, ibc, intan, invt, lct, lt, ni, capx, oancf, ivncf, fincf, oiadp, pi, ppent, ppegt, rectr, sale, seq, txt, xint, xsga, costat, mkvalt, prcc_f,recch, invch, apalch, txach, aoloch, gdwlip, spi, wdp, rcp FROM comp_na_daily_all.funda WHERE consol='C' and (indfmt='INDL' or indfmt='FS') and datafmt='STD' and popsrc='D'")
@@ -69,7 +69,7 @@ WHERE >> conditions (e.g. consol = 'C')
 	drop _merge
 *
 	save "${path}\data\pulled\cstat_us_sample.dta", replace
-	erase "${path}\data\pulled\\COMPUSTATdynamic.dta"
+	erase "${path}\data\pulled\COMPUSTATdynamic.dta"
 	erase "${path}\data\pulled\COMPUSTATstatic.dta"
 *
 clear

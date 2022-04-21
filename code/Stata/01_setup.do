@@ -24,14 +24,15 @@ version 17
 	else {
 	***************************************************************************************************************************************
 	***************************************************************************************************************************************
-		global path "C:\Users\weinrich\sciebo\0_Forschung\98_Other\trr266multitreat\multitreat"		//to be blinded for review 
+		global path "C:\Users\weinrich\sciebo\0_Forschung\98_Other\trr266multitreat\multitreat"		 
 	***************************************************************************************************************************************
 	***************************************************************************************************************************************					
 		cd "${path}" 
-		sysdir set PERSONAL "C:\ado\personal" 
 		*
 		}
-	if("${path" != ""){
+	if("${path}" != ""){
+		sysdir set PERSONAL "C:\ado\personal" 
+		confirm file "${path}\config.csv"
 		display "good to go!"
 	}
 	else{
