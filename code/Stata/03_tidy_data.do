@@ -50,10 +50,10 @@ version 17
 {	//Industry Classification
 *	
 	*current sic
-	gen string_sic = sic
+	*gen string_sic = sic
 	destring sic, replace
 	*historical sic: sich
-	gen string_sich = sich
+	*gen string_sich = sich
 	destring sich, replace
 	replace sic = sich if !missing(sich) & sich != sic 
 *
@@ -69,7 +69,21 @@ version 17
 *
 }
 *
-*(...)
+{	//Leads & Lags
+*
+	sort gvkey fyear
+	xtset gvkey fyear
+	foreach var of varlist fyear pi spi at oiadp sale capx ppegt dlc che intan {
+		*range of leads and lags can be adjusted by manipulating q; here only one fyear
+		forvalues q = 1(1)1{
+			gen LEAD_`q'_`var' = F`q'.`var'
+			gen LAG_`q'_`var' = L`q'.`var'
+			*
+		}
+	}
+*
+}
+*
 {	//Save Tidy Data
 	save "${path}\data\pulled\cstat_us_tidy.dta", replace 
 	erase "${path}\data\external\fama_french_12_industries.dta"
@@ -77,5 +91,5 @@ version 17
 *
 }
 *
-*clear
+clear
 exit
