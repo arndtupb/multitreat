@@ -2,7 +2,7 @@ clear
 version 17 
 *
 ****************************************************
-******            CONFIG DO-FILE            ********
+******             START DO-FILE            ********
 ****************************************************
 *
 { 	// PACKAGES
@@ -10,6 +10,8 @@ version 17
 	*ssc install estout
 	*ssc install reghdfe
 	*reghdfe, compile
+	*ssc install csdid
+	*ssc install drdid
 	*Update packages
 	*adoupdate corsp estout reghdfe, update
 }

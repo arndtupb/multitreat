@@ -40,6 +40,7 @@ version 17
 	*Total Assets & Sales 
 	drop if missing(at)
 	drop if at <= 0
+	drop if missing(sale)
 	drop if sale <= 0
 *
 	*Check for duplicates in gvkey and fyear

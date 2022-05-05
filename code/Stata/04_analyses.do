@@ -13,25 +13,33 @@ version 17
 *
 	*TREATED
 	*whether or not a firm will receive a treatment
-	*treated and never-treated firms: median split of are normally distributed variable 
+	*treated and never-treated firms: p25-split of a normally distributed variable 
 	generate vhelp = .
 	bysort gvkey: replace vhelp = cond(_n==1,rnormal(),vhelp[1])
 	qui sum vhelp, detail 
 	gen treated = 0 
-	replace treated = 1 if vhelp >= `r(p50)' 
+	replace treated = 1 if vhelp >= `r(p25)' 
 	drop vhelp*	
 *
 	*TREATMENT
 	*point of time a firm is initially treated
 	*treatment status remains constant
-	*simulation: observation that is the closest to passing p50 of a uniformly distributed random variable within the interval (0,1)
-	bysort gvkey: gen id = _n
+	*simulation: observation that is the closest to passing p50 of a uniformly distributed random variable within the interval (0,1) (or max of random var if it does not passt overall p50 per treated gvkey)
 	gen random =  cond(treated == 1, runiform(),.)
-	gen vhelp = .
-	qui sum random, detail 
+	qui sum random, detail
 	sort gvkey random 
 	bysort gvkey (random): gen treatment = sum(random >= `r(p50)' & random < .) == 1
-	drop id random vhelp
+	bysort gvkey: egen vhelp = max(treatment)
+	bysort gvkey: egen reverserandomrank = rank(-random)
+	bysort gvkey (reverserandomrank): replace treatment = 1 if _n==1 &  treated == 1 & treatment == 0 & vhelp == 0
+	drop random vhelp* reverserandomrank
+	sort gvkey fyear
+	*initial treatment year per firm
+	bysort gvkey: gen first_treatment = fyear if treatment == 1
+	bysort gvkey: egen vhelp = max(first_treatment)
+	replace first_treatment = vhelp
+	replace first_treatment = 0 if treated == 0
+	drop vhelp 
 	sort gvkey fyear
 *
 	*POST
@@ -43,12 +51,23 @@ version 17
 	gen treatedxpost = treated*post
 *
 	*EFFECT
-	gen y = sale/LAG_!_at
-	
+	sort gvkey fyear
+	gen y = sale/LAG_1_at
+	replace y = sale/at if missing(y)
+	*winsorize
+	qui sum y, d
+	replace y = `r(p1)' if y <= `r(p1)'
+	replace y = `r(p99)' if y >= `r(p99)'
+	*simulate effect
+	*stable without variation: 
+	qui sum y, d 
+	replace y = y + `r(sd)' if post == 1 & treated == 1 & !missing(y)
 *
 }
 *
 {	//Analyses
+	csdid y, ivar(gvkey) time(fyear) gvar(first_treatment) 
+	method(dripw)
 
 }
 *
