@@ -1,9 +1,8 @@
 *
 !.gitignore
-!.paper_stata.qmd
-!.references.bib
-!.trr266_logo.eps
-!.beamer_theme_trr266.sty
-!.presentation.Rmd
-!.paper.Rmd
-
+!paper_stata.qmd
+!references.bib
+!trr266_logo.eps
+!beamer_theme_trr266.sty
+!presentation.Rmd
+!paper.Rmd

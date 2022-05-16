@@ -1,0 +1,174 @@
+---
+title: |
+  | Multitreat: Stata & Quarto^[This work was supported by Deutsche Forschungsgemeinschaft (Project-ID 403041268, TRR 266 Accounting for Transparency).]
+author: |
+  | **Your Name**^[Send correspondence to Your Name (\href{https://orcid.org/}{orcid.org/yourID}), Affiliation & School, Address, ZIP code & country.]
+  | Affiliation & School
+  | Your Email
+date: |
+  | `r loc <- Sys.getlocale(category = "LC_TIME"); Sys.setlocale("LC_TIME", "C"); fdate <- format(Sys.time(), '%B %e, %Y'); Sys.setlocale("LC_TIME", loc); fdate` \vspace{12cm}
+
+format:
+  pdf:
+    documentclass: article
+    number-sections: true
+    colorlinks: true
+    papersize: letter
+    fig_caption: yes
+    fig-cap-location: top
+    geometry: margin=1in
+    fontsize: 11pt
+    ident: yes
+
+editor: visual
+
+bibliography: references.bib
+biblio-style: apsr
+
+always_allow_html: yes
+
+header-includes:
+  - \usepackage[nolists]{endfloat}  
+  - \usepackage{setspace}\doublespacing
+  - \setlength{\parindent}{4em}
+  - \setlength{\parskip}{1em}
+  - \usepackage[hang,flushmargin]{footmisc}
+  - \usepackage{caption} 
+  - \captionsetup[table]{skip=24pt,font=bf}
+  - \captionsetup[figure]{skip=24pt,font=bf}
+  - \usepackage{array}
+  - \usepackage{threeparttable}
+  - \usepackage{adjustbox}
+  - \usepackage{graphicx}
+  - \usepackage{csquotes}
+  - \usepackage{svg}
+  - \usepackage{amsmath}
+  - \usepackage{blindtext}
+---
+
+```{r setup, message=FALSE, warning=FALSE, include=FALSE}
+if (!require(knitr)) {install.packages("knitr")}  
+library(knitr)
+opts_chunk$set(fig.pos = 'p') # Places figures on their own pages
+opts_chunk$set(out.width = '80%', dpi=600)
+opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, cache = FALSE)
+#
+#if (!require(RStata)) {install.packages("RStata")}  
+#library(RStata)
+#pathStata
+#if(substr(path.expand("~"), 1, 1)=="C"){
+#  pathStata <- readLines(paste0(file.path(dirname(path.expand("~")), "Desktop"), "/pathStata.txt"), warn = FALSE)
+#} 
+#options("RStata.StataPath" = paste0(pathStata))
+#options("RStata.StataVersion" = 17)
+```
+
+\thispagestyle{empty}
+
+\pagebreak
+
+\setcounter{page}{1}
+
+```{=tex}
+\begin{center}
+\vspace{2.5cm}
+  \end{center}
+```
+```{=tex}
+\begin{center}
+\LARGE Multitreat: Stata \& Quarto
+  \end{center}
+\vspace{2cm}
+```
+```{=tex}
+\begin{abstract}
+\singlespace \blindtext
+    \end{abstract}
+\vspace{2cm}
+```
+```{=tex}
+\begin{flushleft}
+\textbf{Keywords}: Template, Stata, Quarto, Reproducible Research \newline
+\textbf{Data Availability}: Sources identified in the text \newline
+\textbf{Public Code Repository}: \href{https://github.com/trr266/treat}{github.com/trr266/treat}  \newline
+\textbf{Declaration of Interest}: The authors declare that they have no conflict of interest \newline
+  \end{flushleft}
+```
+\pagebreak
+
+## Introduction
+
+## Identification Strategy & Results
+
+### Descriptive Statistics
+
+tbd
+
+```{r}
+#stata_source <- ' 
+#display "hello world"
+#'
+#stata(stata_source)
+```
+
+### Difference-in-Differences with Multiple Time Periods
+
+tbd
+
+\input{../output/tbl_twfe.tex}
+
+This is some text that refers to Table \ref{tab:tbl-twfe}. Let us now look at the results in Figure \ref{fig:fig-twfe}
+
+```{=tex}
+\begin{figure}[p]
+\centering
+\caption{ATTs for 2008-treatment-cohort \label{fig:fig-twfe}}
+\includegraphics[width=0.5\textwidth]{../output/fig_twfe.jpg}
+\end{figure}
+```
+## Conclusion
+
+\newpage
+
+## References {.unnumbered}
+
+\singlespacing
+
+\small
+
+::: {#refs}
+:::
+
+\doublespacing
+
+\newpage
+
+## Appendix {.unnumbered}
+
+```{=tex}
+\renewcommand{\thetable}{A\arabic{table}}
+\setcounter{table}{0}
+```
+| Name | Definition | Source |
+|------|------------|--------|
+| VarA | tbd        | tbd    |
+| VarB | tbd        | tbd    |
+| VarB | tbd        | tbd    |
+
+: Variable Definitions {#tbl-vars}
+
+this is some text that refers to @tbl-vars
+
+\newpage
+
+```{=tex}
+\renewcommand{\thetable}{\arabic{table}}
+\setcounter{table}{0}
+```
+\processdelayedfloats
+
+\newpage
+
+## Online Supplement {.unnumbered}
+
+The public GitHub repository at \href{https://github.com/trr266/treat}{github.com/trr266/treat} contains dofiles for Stata (\*.do) and the Quarto markdown file (paper_stata.qmd).
