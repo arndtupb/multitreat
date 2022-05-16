@@ -8,6 +8,12 @@ version 17
 	*Import Tidy Compustat Data
 	use "${path}\data\pulled\cstat_us_tidy.dta", clear 
 *
+{	//Limit Sample to 25 Years of Observations (done for ease of computation)
+	drop if fyear < 1996 
+	drop if fyear > 2020
+*
+}
+*
 {	//Simulation of Treatment
 	set seed 1234
 *
@@ -65,11 +71,37 @@ version 17
 *
 }
 *
-{	//Analyses
-	csdid y, ivar(gvkey) time(fyear) gvar(first_treatment) 
-	method(dripw)
-
+	save "${path}\data\pulled\cstat_us_final.dta", replace 
+*
+{	//Analysis
+	csdid y, ivar(gvkey) time(fyear) gvar(first_treatment) method(dripw)
+	estat all
+	*5 year window around treatment: ATT by Periods
+	estat event, window(-5 5) estore(event)
+	esttab event using "${path}\output\tbl_twfe.tex", replace /// 
+		se(3) nostar noobs nogaps /// 
+		coeflabels(Pre_avg "Pretreatment Average" ///
+					Post_avg "Posttreatment Average" ///
+					Tm5 "Pretreatment \$t-5\$" ///
+					Tm4 "Pretreatment \$t-4\$" ///
+					Tm3 "Pretreatment \$t-3\$" ///
+					Tm2 "Pretreatment \$t-2\$" ///
+					Tm1 "Pretreatment \$t-1\$" ///
+					Tp0 "Treatment" ///
+					Tp1 "Posttreatment \$t1\$" ///
+					Tp2 "Posttreatment \$t2\$" ///
+					Tp3 "Posttreatment \$t3\$" ///
+					Tp4 "Posttreatment \$t4\$" ///
+					Tp5 "Posttreatment \$t5\$") ///
+		title("ATT by Periods Before and After Treatment") mtitles("\$\frac{sales}{lagged\,total\,assets}\$") nonumbers ///
+		addnotes("Presentation limited to a window of 5 periods around treament." "\label{tab:tbl-twfe}")
+	*Visualization: example with 2008-cohort 
+	graph drop _all
+	csdid_plot, group(2008) style(rspike) name(twfe)
+	addplot twfe: , plotregion(fcolor(white)) graphregion(color(white)) legend(off) 
+	graph export  "${path}\output\fig_twfe.jpg", replace
+*	
 }
 *
-clear
+*clear
 exit

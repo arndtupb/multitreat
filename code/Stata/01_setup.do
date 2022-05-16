@@ -10,8 +10,9 @@ version 17
 	*ssc install estout
 	*ssc install reghdfe
 	*reghdfe, compile
-	*ssc install csdid
 	*ssc install drdid
+	*ssc install csdid
+	*ssc install addplot
 	*Update packages
 	*adoupdate corsp estout reghdfe, update
 }
@@ -27,6 +28,7 @@ version 17
 	***************************************************************************************************************************************
 	***************************************************************************************************************************************
 		global path "C:\Users\weinrich\sciebo\0_Forschung\98_Other\trr266multitreat\multitreat"		 
+		global pathStata "C:\Program Files\Stata17\StataSE-64\StataSE-64"	
 	***************************************************************************************************************************************
 	***************************************************************************************************************************************					
 		cd "${path}" 
@@ -34,7 +36,15 @@ version 17
 		}
 	if("${path}" != ""){
 		sysdir set PERSONAL "C:\ado\personal" 
+*
 		confirm file "${path}\config.csv"
+*
+		global username "`c(username)'"
+		global desktop "C:\Users\\${username}\Desktop"
+		file open mynotes using "C:\Users\\${username}\Desktop\pathStata.txt", text write replace
+		file write mynotes "${pathStata}"
+		file close mynotes
+*
 		display "good to go!"
 	}
 	else{
