@@ -52,15 +52,6 @@ library(knitr)
 opts_chunk$set(fig.pos = 'p') # Places figures on their own pages
 opts_chunk$set(out.width = '80%', dpi=600)
 opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, cache = FALSE)
-#
-#if (!require(RStata)) {install.packages("RStata")}  
-#library(RStata)
-#pathStata
-#if(substr(path.expand("~"), 1, 1)=="C"){
-#  pathStata <- readLines(paste0(file.path(dirname(path.expand("~")), "Desktop"), "/pathStata.txt"), warn = FALSE)
-#} 
-#options("RStata.StataPath" = paste0(pathStata))
-#options("RStata.StataVersion" = 17)
 ```
 
 \thispagestyle{empty}
@@ -88,7 +79,7 @@ opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, cache = FALSE)
 ```
 ```{=tex}
 \begin{flushleft}
-\textbf{Keywords}: Template, Stata, Quarto, Reproducible Research \newline
+\textbf{Keywords}: Stata, Quarto, Reproducible Research, TWFE \newline
 \textbf{Data Availability}: Sources identified in the text \newline
 \textbf{Public Code Repository}: \href{https://github.com/trr266/treat}{github.com/trr266/treat}  \newline
 \textbf{Declaration of Interest}: The authors declare that they have no conflict of interest \newline
@@ -98,34 +89,62 @@ opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, cache = FALSE)
 
 ## Introduction
 
+Hey there & congrats! You managed to skip the blindtext in the abstract. This means that we can dive into the world of reproducible research using coding languages like YAML, R, Stata, Python, Julia and many more... all from within one document: a **Quarto Markdown file (.qmd)**. Additionally, we provide you with two cherries on top of this futch:
+
+-   a template .qmd-file for your next paper in our public GitHub repository and
+
+-   an application of one of the most common applications to causal research: a two way fixed effects research design under recent considerations of @CS_2021
+
+All set? Let's get started.
+
 ## Identification Strategy & Results
 
 ### Descriptive Statistics
 
-tbd
+Writing an article with Quarto Markdown allows you to switch between coding languages at your will. Easiest is the implementation of R and Python, but access to Stata works too. You can either import Stata output as .tex-files, e.g. by the courtesy of Stata's user written estout package or you immediately call Stata from within Quarto Markdown with the Statamarkdown package for R.
 
-```{r}
-#stata_source <- ' 
-#display "hello world"
-#'
-#stata(stata_source)
+https://www.ssc.wisc.edu/\~hemken/Stataworkshops/Statamarkdown/stata-and-r-markdown.html
+
+```{r, warning=FALSE, echo=FALSE}
+if (!require(devtools)) {install.packages("devtools")}  
+library(devtools)
+if (!require(devtools)) {install_github("hemken/Statamarkdown")}  
+
+```
+
+```{r, echo = FALSE}
+library(Statamarkdown)
+```
+
+```{stata}
+use sysuse auto
+*
+tab mpg
 ```
 
 ### Difference-in-Differences with Multiple Time Periods
 
-tbd
+tbd @CS_2021
 
 \input{../output/tbl_twfe.tex}
 
-This is some text that refers to Table \ref{tab:tbl-twfe}. Let us now look at the results in Figure \ref{fig:fig-twfe}
+This is some text that refers to Table \ref{tab:tbl-twfe}. Let us now look at the results in Figure \ref{fig-twfe} or @fig-twfe
 
 ```{=tex}
-\begin{figure}[p]
-\centering
-\caption{ATTs for 2008-treatment-cohort \label{fig:fig-twfe}}
-\includegraphics[width=0.5\textwidth]{../output/fig_twfe.jpg}
-\end{figure}
+%\begin{figure}[p]
+%\centering
+%\caption{ATTs for 2008-treatment-cohort \label{fig:fig-twfe}}
+%\includegraphics[width=0.5\textwidth]{../output/fig_twfe.jpg}
+%\end{figure}
 ```
+```{r fig-twfe, fig.cap = "ATT for 1008-treatment-short"}
+if (!require(magick)) {install.packages("magick")}  
+library(magick)
+if (!require(rsvg)) {install.packages("rsvg")}  
+library(rsvg)
+magick::image_read_svg("../output/fig_twfe.svg")
+```
+
 ## Conclusion
 
 \newpage

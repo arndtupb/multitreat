@@ -99,7 +99,7 @@ version 17
 	graph drop _all
 	csdid_plot, group(2008) style(rspike) name(twfe)
 	addplot twfe: , plotregion(fcolor(white)) graphregion(color(white)) legend(off) 
-	graph export  "${path}\output\fig_twfe.jpg", replace
+	graph export  "${path}\output\fig_twfe.svg", replace
 *	
 }
 *
