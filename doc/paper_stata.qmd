@@ -1,6 +1,6 @@
 ---
 title: |
-  | Multitreat: Stata & Quarto^[This work was supported by Deutsche Forschungsgemeinschaft (Project-ID 403041268, TRR 266 Accounting for Transparency).]
+  | Multitreat: Stata & Quarto^[Your acknowledgements. This work was supported by Deutsche Forschungsgemeinschaft (Project-ID 403041268, TRR 266 Accounting for Transparency).]
 author: |
   | **Your Name**^[Send correspondence to Your Name (\href{https://orcid.org/}{orcid.org/yourID}), Affiliation & School, Address, ZIP code & country.]
   | Affiliation & School
@@ -72,10 +72,10 @@ opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, cache = FALSE)
 \vspace{2cm}
 ```
 ```{=tex}
-\begin{abstract}
-\singlespace \blindtext
-    \end{abstract}
-\vspace{2cm}
+%\begin{abstract}
+%\singlespace \blindtext
+%    \end{abstract}
+%\vspace{2cm}
 ```
 ```{=tex}
 \begin{flushleft}
@@ -89,38 +89,42 @@ opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, cache = FALSE)
 
 ## Introduction
 
-Hey there & congrats! You managed to skip the blindtext in the abstract. This means that we can dive into the world of reproducible research using coding languages like YAML, R, Stata, Python, Julia and many more... all from within one document: a **Quarto Markdown file (.qmd)**. Additionally, we provide you with two cherries on top of this futch:
-
--   a template .qmd-file for your next paper in our public GitHub repository and
-
--   an application of one of the most common applications to causal research: a two way fixed effects research design under recent considerations of @CS_2021
-
-All set? Let's get started.
+Hey there & congrats! You managed to skip the blindtext in the abstract. This means that we can dive into the world of reproducible research using coding languages like YAML, R, Stata, Python, Julia and many more... all from within one document: a **Quarto Markdown file (.qmd)**. Additionally, we provide you with two cherries on top of this futch: a template .qmd-file for your next paper in our public GitHub repository and & an exemplary application of one of the most common designs in causal research: a two way fixed effects research approach under recent considerations of @CS_2021. All set? Let's get started.
 
 ## Identification Strategy & Results
 
+Writing a paper with Quarto Markdown allows you to switch between coding languages at your will. Easiest is the implementation of R and Python, but access to Stata works too. You can either import Stata output as .tex-files, e.g. by the courtesy of Stata's user written estout package or you immediately call Stata from within Quarto Markdown with the Statamarkdown package.[^1]
+
+[^1]: \href{https://www.ssc.wisc.edu/\~hemken/Stataworkshops/Statamarkdown/stata-and-r-markdown.html}{www.ssc.wisc.edu/\~hemken/Stataworkshops/Statamarkdown/stata-and-r-markdown.html}
+
 ### Descriptive Statistics
-
-Writing an article with Quarto Markdown allows you to switch between coding languages at your will. Easiest is the implementation of R and Python, but access to Stata works too. You can either import Stata output as .tex-files, e.g. by the courtesy of Stata's user written estout package or you immediately call Stata from within Quarto Markdown with the Statamarkdown package for R.
-
-https://www.ssc.wisc.edu/\~hemken/Stataworkshops/Statamarkdown/stata-and-r-markdown.html
 
 ```{r, warning=FALSE, echo=FALSE}
 if (!require(devtools)) {install.packages("devtools")}  
 library(devtools)
-if (!require(devtools)) {install_github("hemken/Statamarkdown")}  
-
+if (!require(devtools)) {install_github("hemken/Statamarkdown")}
 ```
 
 ```{r, echo = FALSE}
 library(Statamarkdown)
 ```
 
-```{stata}
-use sysuse auto
-*
-tab mpg
+```{stata, collectcode=TRUE, results="hide"}
+use "../data/pulled/cstat_us_final.dta"
+#
+estpost tabstat y treated post, statistics(n mean sd min median max) columns(statistics)
+#
+esttab . using "../output/stata_descstats.tex", replace ///
+  cells("Mean SD Min p50 Max") ///
+  title("Descriptive Statistics") ///
+  nonumbers nogaps ///
+  coeflabels(y "\$\frac{sales}{lagged\,total\,assets}\$") ///
+  addnotes("\label{tab:tbl-descstats}")
 ```
+
+\input{../output/stata_descstats.tex}
+
+This is some text that refers to Table \ref{tab:tbl-descstats}. 
 
 ### Difference-in-Differences with Multiple Time Periods
 
@@ -130,19 +134,12 @@ tbd @CS_2021
 
 This is some text that refers to Table \ref{tab:tbl-twfe}. Let us now look at the results in Figure \ref{fig-twfe} or @fig-twfe
 
-```{=tex}
-%\begin{figure}[p]
-%\centering
-%\caption{ATTs for 2008-treatment-cohort \label{fig:fig-twfe}}
-%\includegraphics[width=0.5\textwidth]{../output/fig_twfe.jpg}
-%\end{figure}
-```
 ```{r fig-twfe, fig.cap = "ATT for 1008-treatment-short"}
 if (!require(magick)) {install.packages("magick")}  
 library(magick)
 if (!require(rsvg)) {install.packages("rsvg")}  
 library(rsvg)
-magick::image_read_svg("../output/fig_twfe.svg")
+magick::image_read_svg("../output/fig_twfe.svg", width=3000)
 ```
 
 ## Conclusion
@@ -176,7 +173,7 @@ magick::image_read_svg("../output/fig_twfe.svg")
 
 : Variable Definitions {#tbl-vars}
 
-this is some text that refers to @tbl-vars
+The .do-files for Stata comprise additional information to the explanations in @tbl-vars. Please refer to the Online Supplement.
 
 \newpage
 
@@ -190,4 +187,4 @@ this is some text that refers to @tbl-vars
 
 ## Online Supplement {.unnumbered}
 
-The public GitHub repository at \href{https://github.com/trr266/treat}{github.com/trr266/treat} contains dofiles for Stata (\*.do) and the Quarto markdown file (paper_stata.qmd).
+The public GitHub repository at \href{https://github.com/trr266/treat}{github.com/trr266/treat} contains .do-files for Stata (\*.do) and the Quarto markdown file (paper_stata.qmd).

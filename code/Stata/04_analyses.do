@@ -78,7 +78,7 @@ version 17
 	estat all
 	*5 year window around treatment: ATT by Periods
 	estat event, window(-5 5) estore(event)
-	esttab event using "${path}\output\tbl_twfe.tex", replace /// 
+	esttab event using "${path}\output\stata_tbl_twfe.tex", replace /// 
 		se(3) nostar noobs nogaps /// 
 		coeflabels(Pre_avg "Pretreatment Average" ///
 					Post_avg "Posttreatment Average" ///
@@ -99,7 +99,7 @@ version 17
 	graph drop _all
 	csdid_plot, group(2008) style(rspike) name(twfe)
 	addplot twfe: , plotregion(fcolor(white)) graphregion(color(white)) legend(off) 
-	graph export  "${path}\output\fig_twfe.svg", replace
+	graph export  "${path}\output\stata_fig_twfe.svg", replace
 *	
 }
 *
