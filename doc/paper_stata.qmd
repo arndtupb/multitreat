@@ -43,7 +43,6 @@ header-includes:
   - \usepackage{csquotes}
   - \usepackage{svg}
   - \usepackage{amsmath}
-  - \usepackage{blindtext}
 ---
 
 ```{r setup, message=FALSE, warning=FALSE, include=FALSE}
@@ -65,31 +64,35 @@ opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, cache = FALSE)
 \vspace{2.5cm}
   \end{center}
 ```
+
 ```{=tex}
 \begin{center}
 \LARGE Multitreat: Stata \& Quarto
   \end{center}
 \vspace{2cm}
 ```
+
 ```{=tex}
-%\begin{abstract}
-%\singlespace \blindtext
-%    \end{abstract}
-%\vspace{2cm}
+\begin{abstract}
+\singlespace
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt.
+\end{abstract}
+\vspace{2cm}
 ```
+
 ```{=tex}
 \begin{flushleft}
 \textbf{Keywords}: Stata, Quarto, Reproducible Research, TWFE \newline
 \textbf{Data Availability}: Sources identified in the text \newline
 \textbf{Public Code Repository}: \href{https://github.com/trr266/treat}{github.com/trr266/treat}  \newline
-\textbf{Declaration of Interest}: The authors declare that they have no conflict of interest \newline
+\textbf{Declaration of Interest}: The author(s) declare(s) that they have no conflict of interest \newline
   \end{flushleft}
 ```
 \pagebreak
 
 ## Introduction
 
-Hey there & congrats! You managed to skip the blindtext in the abstract. This means that we can dive into the world of reproducible research using coding languages like YAML, R, Stata, Python, Julia and many more... all from within one document: a **Quarto Markdown file (.qmd)**. Additionally, we provide you with two cherries on top of this futch: a template .qmd-file for your next paper in our public GitHub repository and & an exemplary application of one of the most common designs in causal research: a two way fixed effects research approach under recent considerations of @CS_2021. All set? Let's get started.
+Hey there & congrats! You managed to skip the blindtext in the abstract. This means that we can dive into the world of reproducible research using coding languages like YAML, R, Stata, Python, Julia and many more... all from within one document: a **Quarto Markdown file (.qmd)**. Additionally, we provide you with two cherries on top of this fudge: a template .qmd-file for your next paper in our public GitHub repository and & an exemplary application of one of the most common designs in causal research: a two way fixed effects research approach under recent considerations of @CS_2021. All set? Let's get started.
 
 ## Identification Strategy & Results
 
@@ -124,25 +127,24 @@ esttab . using "../output/stata_descstats.tex", replace ///
 
 \input{../output/stata_descstats.tex}
 
-This is some text that refers to Table \ref{tab:tbl-descstats}. 
+The .do-files for Stata contain many valuable information for our toy-project & we share them with a good reason: following open sciences practices makes your research FAIR: findable, accessible, interoperable and reusable as well as reproducible. This allows interested individuals to comprehend and verify identification strategies and analyses of your research and to immediately utilize the respective code. For instance, the .do-file "02_connect_wrds.do" showcases how to establish a connection to the data providers WRDS & Compustat from within Stata. You need *one* additional variable for your analyses? Simply adjust the code and build dependencies from thereon. For our examplary analysis, we pull raw data on dynamic and static information about US publicly listed firms from Compustat and then tidy the data. For instance, we perform a simple quality check and exclude firm-year observations with missing or negative sales from the sample. For our subsequent analysis, we simulate a stable treatment effect on firms' sales (i.e. a one-standard-deviation increase). Whether or not a firm is designated as "treated" depends on a random draw.  Table \ref{tab:tbl-descstats}, which was created from within the .qmd-file, contains aggregated information on our outcome variable and firms' treatment-status. Please note that you can easily access additional information on our research design by looking into the .do-files. One general advice on this end: make sure that your code is easy to understand for everyone by using explanatory notes within the code. 
 
 ### Difference-in-Differences with Multiple Time Periods
 
-tbd @CS_2021
-
-\input{../output/tbl_twfe.tex}
-
-This is some text that refers to Table \ref{tab:tbl-twfe}. Let us now look at the results in Figure \ref{fig-twfe} or @fig-twfe
-
-```{r fig-twfe, fig.cap = "ATT for 1008-treatment-short"}
+```{r fig-twfe, fig.cap = "ATT for 2008-treatment-cohort"}
 if (!require(magick)) {install.packages("magick")}  
 library(magick)
 if (!require(rsvg)) {install.packages("rsvg")}  
 library(rsvg)
-magick::image_read_svg("../output/fig_twfe.svg", width=3000)
+magick::image_read_svg("../output/stata_fig_twfe.svg", width=3000)
 ```
 
+\input{../output/stata_tbl_twfe.tex}
+
+The simulated treatment effect can empirically be identified in the data by employing the recent advances by @CS_2021.^[Please note that the Stata code for the analysis may take some time to run.] However, you should also want to visualize your data. While there are many approaches to this, we showcase one. We plot the Average Treatment Effect on the Treated (ATT) for the group of firms which received their treatment in 2008 (aka "2008-treatment-cohort") in @fig-twfe. In contrast to the presented coefficients in \ref{tab:tbl-twfe}, the figure is not limited to a window of five years around the treatment. One can easily identify the (stable) treatment effect in year of treatment and the subsequent years. One can also observe that there is no considerable fluctuation in the pre-periods of the treatment. Table \ref{tab:tbl-twfe} generalizes these visual inferences to our whole sample of treated and control firms. 
+
 ## Conclusion
+Open science rocks and so does causal research in accounting! Learn more about writing in Quarto Markdown at \href{https://quarto.org/docs/guide/}{quarto.org}.
 
 \newpage
 
@@ -169,7 +171,7 @@ magick::image_read_svg("../output/fig_twfe.svg", width=3000)
 |------|------------|--------|
 | VarA | tbd        | tbd    |
 | VarB | tbd        | tbd    |
-| VarB | tbd        | tbd    |
+| VarC | tbd        | tbd    |
 
 : Variable Definitions {#tbl-vars}
 

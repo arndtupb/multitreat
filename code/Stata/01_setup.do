@@ -66,9 +66,5 @@ version 17
 *
 }
 *
-{	// LISTS OF VARIABLES
-*
-}
-*
 clear
 exit

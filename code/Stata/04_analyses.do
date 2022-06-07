@@ -73,7 +73,7 @@ version 17
 *
 	save "${path}\data\pulled\cstat_us_final.dta", replace 
 *
-{	//Analysis
+{	//Analyses
 	csdid y, ivar(gvkey) time(fyear) gvar(first_treatment) method(dripw)
 	estat all
 	*5 year window around treatment: ATT by Periods
