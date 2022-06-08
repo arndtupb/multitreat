@@ -79,7 +79,7 @@ Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula 
 ```
 ```{=tex}
 \begin{flushleft}
-\textbf{Keywords}: Stata, Quarto, Reproducible Research, TWFE \newline
+\textbf{Keywords}: Stata, Quarto, Reproducible Research, Two-Way-Fixed-Effects \newline
 \textbf{Data Availability}: Sources identified in the text \newline
 \textbf{Public Code Repository}: \href{https://github.com/trr266/treat}{github.com/trr266/treat}  \newline
 \textbf{Declaration of Interest}: The author(s) declare(s) that they have no conflict of interest \newline
@@ -189,4 +189,4 @@ The .do-files for Stata comprise additional information to the explanations in @
 
 ## Online Supplement {.unnumbered}
 
-The public GitHub repository at \href{https://github.com/trr266/treat}{github.com/trr266/treat} contains .do-files for Stata (\*.do) and the Quarto markdown file (paper_stata.qmd).
+The public GitHub repositories at \href{https://github.com/trr266/treat}{github.com/trr266/treat} and at \href{https://github.com/arndtupb/multitreat}{github.com/arndtupb/multitreat} contain additional information. "multitreat" contains .do-files for Stata (\*.do) and the Quarto markdown file (paper_stata.qmd).
