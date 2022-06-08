@@ -21,13 +21,13 @@ version 17
 *
 {	//WD
 	if "`c(os)'"=="MacOSX" | "`c(os)'"=="UNIX" {
-		display as error "please run dofiles & scripts using Windows (developing environment)"
+		display as error "please run .do-files & scripts using Windows (developing environment)"
 		exit 999
 	}
 	else {
 	***************************************************************************************************************************************
 	***************************************************************************************************************************************
-		global path "C:\Users\weinrich\sciebo\0_Forschung\98_Other\trr266multitreat\multitreat"		 
+		global path // "C:\Users\...\multitreat" insert your working directory (the directory you cloned the repo to) here)		 
 		global pathStata "C:\Program Files\Stata17\StataSE-64\StataSE-64"	
 	***************************************************************************************************************************************
 	***************************************************************************************************************************************					
@@ -63,6 +63,11 @@ version 17
 	global time_string = subinstr("$time_string", " ", "_", .)
 	display "$time_string"
 }
+*
+{	//FAKE MAKE
+	*do "${path}\code\Stata\02_connect_wrds.do"
+	*do "${path}\code\Stata\03_tidy_data.do"
+	*do "${path}\code\Stata\04_analyses.do"
 *
 }
 *

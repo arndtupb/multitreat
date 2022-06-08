@@ -2,7 +2,7 @@
 
 This repository extends trr266/treat to multiple coding languages. In particular, code/stata contains .do-files for conducting reproducible accounting research with Stata. It is showcased how to download data from Compustat via WRDS (using Stata 17 under Windows) & how to implement a causal research design when facing an (hypothetical) staggered adoption of a treatment among (randomly selected) firms. doc contains a Quarto Markdown file (stata_paper.qmd) that ties the output from Stata to a scientific paper. You can use the .qmd-file for any of your upcoming paper projects.
 
-This all comes on top from what you already know from trr266/treat. Please refer to this repository for further details!
+This all comes on top from what you already know from trr266/treat. Please refer to this repository for further details! However, please note that this repository is work in progress. A Stata-specific MAKE file is in need of being written & therefore, you will have to run the .do-files manually (you could also consider the fake make part in 01_setup.do). Additionally, you will once need to copy your working directory into 01_setup.do. 
 
 ### Licensing
 
