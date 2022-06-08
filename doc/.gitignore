@@ -1,6 +1,7 @@
 *
 !.gitignore
 !paper_stata.qmd
+!paper_stata.pdf
 !references.bib
 !trr266_logo.eps
 !beamer_theme_trr266.sty
