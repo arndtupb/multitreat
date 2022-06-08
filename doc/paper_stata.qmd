@@ -64,14 +64,12 @@ opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, cache = FALSE)
 \vspace{2.5cm}
   \end{center}
 ```
-
 ```{=tex}
 \begin{center}
 \LARGE Multitreat: Stata \& Quarto
   \end{center}
 \vspace{2cm}
 ```
-
 ```{=tex}
 \begin{abstract}
 \singlespace
@@ -79,7 +77,6 @@ Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula 
 \end{abstract}
 \vspace{2cm}
 ```
-
 ```{=tex}
 \begin{flushleft}
 \textbf{Keywords}: Stata, Quarto, Reproducible Research, TWFE \newline
@@ -96,9 +93,9 @@ Hey there & congrats! You managed to skip the blindtext in the abstract. This me
 
 ## Identification Strategy & Results
 
-Writing a paper with Quarto Markdown allows you to switch between coding languages at your will. Easiest is the implementation of R and Python, but access to Stata works too. You can either import Stata output as .tex-files, e.g. by the courtesy of Stata's user written estout package or you immediately call Stata from within Quarto Markdown with the Statamarkdown package.[^1]
+Writing a paper with Quarto Markdown allows you to switch between coding languages at your will. Easiest is the implementation of R and Python, but access to Stata works too. You can either import Stata output as .tex-files, e.g. by the courtesy of Stata's user written estout package, or you immediately call Stata from within Quarto Markdown with the Statamarkdown package.[^1]
 
-[^1]: \href{https://www.ssc.wisc.edu/\~hemken/Stataworkshops/Statamarkdown/stata-and-r-markdown.html}{www.ssc.wisc.edu/\~hemken/Stataworkshops/Statamarkdown/stata-and-r-markdown.html}
+[^1]: \href{https://www.ssc.wisc.edu/\~hemken/Stataworkshops/Statamarkdown/stata-and-r-markdown.html}{www.ssc.wisc.edu/\~hemken/Stataworkshops/Statamarkdown/stata-and-r-markdown.html}.
 
 ### Descriptive Statistics
 
@@ -127,7 +124,7 @@ esttab . using "../output/stata_descstats.tex", replace ///
 
 \input{../output/stata_descstats.tex}
 
-The .do-files for Stata contain many valuable information for our toy-project & we share them with a good reason: following open sciences practices makes your research FAIR: findable, accessible, interoperable and reusable as well as reproducible. This allows interested individuals to comprehend and verify identification strategies and analyses of your research and to immediately utilize the respective code. For instance, the .do-file "02_connect_wrds.do" showcases how to establish a connection to the data providers WRDS & Compustat from within Stata. You need *one* additional variable for your analyses? Simply adjust the code and build dependencies from thereon. For our examplary analysis, we pull raw data on dynamic and static information about US publicly listed firms from Compustat and then tidy the data. For instance, we perform a simple quality check and exclude firm-year observations with missing or negative sales from the sample. For our subsequent analysis, we simulate a stable treatment effect on firms' sales (i.e. a one-standard-deviation increase). Whether or not a firm is designated as "treated" depends on a random draw.  Table \ref{tab:tbl-descstats}, which was created from within the .qmd-file, contains aggregated information on our outcome variable and firms' treatment-status. Please note that you can easily access additional information on our research design by looking into the .do-files. One general advice on this end: make sure that your code is easy to understand for everyone by using explanatory notes within the code. 
+The .do-files for Stata contain many valuable information for our toy-project & we share them with a good reason: following open sciences practices makes your research FAIR: findable, accessible, interoperable and reusable as well as reproducible. This allows interested individuals to comprehend and verify identification strategies and analyses of your research and to immediately utilize the respective code. For instance, the .do-file "02_connect_wrds.do" showcases how to establish a connection to the data providers WRDS & Compustat from within Stata. You need *one* additional variable for your analyses? Simply adjust the code and build dependencies from thereon. For our examplary analysis, we pull raw data on dynamic and static information about US publicly listed firms from Compustat and then tidy the data. For instance, we perform a simple quality check and exclude firm-year observations with missing or negative sales from the sample. For our subsequent analysis, we simulate a stable treatment effect on firms' sales (i.e. a one-standard-deviation increase). Whether or not a firm is designated as "treated" depends on a random draw. Table \ref{tab:tbl-descstats}, which was created from within the .qmd-file, contains aggregated information on our outcome variable and firms' treatment-status. The year of treatment is also randomized, which leaves us with (i) never treated firms, (ii) always treated firms, and (iii) firms which receive treatment at some point throughout the sample (aka "staggered adoption"). Please note that you can easily access additional information on our research design by looking into the .do-files. One general advice on this end: make sure that your code is easy to understand for everyone by using explanatory notes within the code.
 
 ### Difference-in-Differences with Multiple Time Periods
 
@@ -141,9 +138,12 @@ magick::image_read_svg("../output/stata_fig_twfe.svg", width=3000)
 
 \input{../output/stata_tbl_twfe.tex}
 
-The simulated treatment effect can empirically be identified in the data by employing the recent advances by @CS_2021.^[Please note that the Stata code for the analysis may take some time to run.] However, you should also want to visualize your data. While there are many approaches to this, we showcase one. We plot the Average Treatment Effect on the Treated (ATT) for the group of firms which received their treatment in 2008 (aka "2008-treatment-cohort") in @fig-twfe. In contrast to the presented coefficients in \ref{tab:tbl-twfe}, the figure is not limited to a window of five years around the treatment. One can easily identify the (stable) treatment effect in year of treatment and the subsequent years. One can also observe that there is no considerable fluctuation in the pre-periods of the treatment. Table \ref{tab:tbl-twfe} generalizes these visual inferences to our whole sample of treated and control firms. 
+The simulated treatment effect can empirically be identified in the data by employing the recent advances by @CS_2021.[^2] However, you should also want to visualize your data. While there are many approaches to this, we showcase one. We plot the Average Treatment Effect on the Treated (ATT) for the group of firms which received their treatment in 2008 (aka "2008-treatment-cohort") in @fig-twfe. In contrast to the presented coefficients in \ref{tab:tbl-twfe}, the figure is not limited to a window of five years around the treatment. One can easily identify the (stable) treatment effect in the year of treatment and the subsequent years. One can also observe that there is no considerable fluctuation in the pre-periods of the treatment. Table \ref{tab:tbl-twfe} generalizes these visual inferences to our whole sample of treated and control firms.
+
+[^2]: Please note that the Stata code for the analysis may take some time to run.
 
 ## Conclusion
+
 Open science rocks and so does causal research in accounting! Learn more about writing in Quarto Markdown at \href{https://quarto.org/docs/guide/}{quarto.org}.
 
 \newpage
