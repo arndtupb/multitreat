@@ -27,18 +27,23 @@ version 17
 	else {
 	***************************************************************************************************************************************
 	***************************************************************************************************************************************
-		global path // "C:\Users\...\multitreat" insert your working directory (the directory you cloned the repo to) here)		 
-		global pathStata "C:\Program Files\Stata17\StataSE-64\StataSE-64"	
+	pwd
+	global currentwd `c(pwd)' // in case you "double-clicked" on the do-file
+		if("${currentwd}" == "C:\Program Files\Stata17"){
+			global currentwd "C:\Users\weinrich\sciebo\0_Forschung\98_Other\trr266multitreat\multitreat\code\Stata" // alternative to global path `c(pwd)'
+		}
+	cd "${currentwd}"  	 
+	cd .. 
+	cd ..
+	pwd
+	global path `c(pwd)'
 	***************************************************************************************************************************************
 	***************************************************************************************************************************************					
-		cd "${path}" 
-		*
 		}
 	if("${path}" != ""){
-		sysdir set PERSONAL "C:\ado\personal" 
-*
 		confirm file "${path}\config.csv"
-*
+		sysdir set PERSONAL "C:\ado\personal" 
+		global pathStata "C:\Program Files\Stata17\StataSE-64\StataSE-64"	
 		global username "`c(username)'"
 		global desktop "C:\Users\\${username}\Desktop"
 		file open mynotes using "C:\Users\\${username}\Desktop\pathStata.txt", text write replace
@@ -64,10 +69,14 @@ version 17
 	display "$time_string"
 }
 *
-{	//FAKE MAKE
+{	//BUILD DEPENDENCIES
+	timer on 1
 	*do "${path}\code\Stata\02_connect_wrds.do"
 	*do "${path}\code\Stata\03_tidy_data.do"
 	*do "${path}\code\Stata\04_analyses.do"
+	timer off 1
+	timer list
+	*25 Minutes
 *
 }
 *
