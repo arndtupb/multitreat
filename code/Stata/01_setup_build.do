@@ -54,6 +54,17 @@ version 17
 	*config.csv contains access information to WRDS
 		confirm file "${path}\config.csv"
 	*Path to ado\personal (assumed, you may need to change this)
+	/*
+	You will need Stata 17 to access WRDS! Stata command: jdbc connect
+	see: 
+	>> help jdbc & 
+	>> https://blog.stata.com/2022/01/27/wharton-research-data-services-stata-17-and-jdbc/ for details
+	In preparation of pulling WRDS-data, you need to install a JDBC driver: 
+	Step #1 
+	Download JDBC driver (.jar file) from https://jdbc.postgresql.org/download.html#current (here postgresql-42.3.3.jar)
+	Step #2 
+	Copy .jar file to Stata's ado path. (By default, Stata for Windows uses the c:\ado directory for user-written ado files.) 
+	*/
 		sysdir set PERSONAL "C:\ado\personal" 	
 	*Path to Stata (assumed, you may need to change this)
 		global pathStata "C:\Program Files\Stata17\StataSE-64\StataSE-64"	
