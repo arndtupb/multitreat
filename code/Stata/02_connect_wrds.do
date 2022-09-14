@@ -6,9 +6,10 @@ version 17
 ****************************************************
 /*
 	You will need Stata 17 to access WRDS! Stata command: jdbc connect
-	see: help jdbc
+	see: 
+	>> help jdbc & 
 	>> https://blog.stata.com/2022/01/27/wharton-research-data-services-stata-17-and-jdbc/ for details
-	In preparation of running the code below, you need to install a JDBC driver: 
+	In preparation of pulling WRDS-data, you need to install a JDBC driver: 
 	Step #1 
 	Download JDBC driver (.jar file) from https://jdbc.postgresql.org/download.html#current (here postgresql-42.3.3.jar)
 	Step #2 

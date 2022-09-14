@@ -1,16 +1,18 @@
 ## Extend the TRR 266 Template for Reproducible Empirical Accounting Research to Multiple Coding Languages
 
-This repository extends [trr266/treat](<https://github.com/trr266/treat>) to multiple coding languages. In particular, **code/stata** contains .**do-files** for conducting reproducible accounting research with Stata. It is showcased how to download data from Compustat via WRDS (using Stata 17 under Windows) & how to implement a causal research design when facing an (hypothetical) staggered adoption of a treatment among (randomly selected) firms. **doc** contains a **Quarto Markdown file** (stata_paper.qmd) that ties the output from Stata to a scientific paper. You can use the .qmd-file as template for any of your upcoming paper projects.
+This repository extends [**trr266/treat**](https://github.com/trr266/treat) to multiple coding languages. In particular, **code/stata** contains .**do-files** for conducting reproducible accounting research with Stata. It is showcased how to download data from Compustat via WRDS (using Stata 17 under Windows) & how to implement a causal research design when facing an (hypothetical) staggered adoption of a treatment among (randomly selected) firms. **doc** contains a **Quarto Markdown file** (stata_paper.qmd) that ties the output from Stata to a scientific paper. You can use the .qmd-file as template for any of your upcoming paper projects.
 
-### How to
+### How to Build
 
 -   **Stata 17**: The software is developed under **Windows** and requires a Windows environment to run successfully.
 
-    -   **Packages**: you will need to install some of the many excellent user written packages for Stata. These packages (and the way of how to install them from ssc) are highlighted at the first lines of **01_setup.do** but will not run automatically.
+    -   **Working Directory**: I suggest that you copy the path to the repository ["C:\\....\\multitreat"] on your local drive to **01_setup_build.do**. Otherwise, the code will respectively run in case you opened the .dofile with a double click (Stata neither knows project-files nor where .dofiles are stored).
 
-    -   Access to data from **WRDS** requires a user account and a (institutional) subscription to the Compustat database. Enter your **user credentials** to **config.csv**. Note that config.csv is included in .gitignore, so that your confidential data are excluded from being pushed to the repository.
+    -   **Packages**: You will need to install some of the many excellent user written packages for Stata. These packages (and the way of how to install them from ssc) are highlighted at the first lines of **01_setup_build.do** but will not run automatically.
 
-    -   Access to WRDS requires Stata 17 & a **JBDC driver**, which you must install separately. Please refer to 02_connect_wrds.do for further information.
+    -   Access to data from **WRDS** requires a user account and a (institutional) subscription to the Compustat database. Enter your **user credentials** to **config.csv**. Note that config.csv is included in .gitignore, so that your confidential data are excluded from being pushed to the repository. Never push credentials to GitHub (there is no way to undo this!).
+
+    -   Access to WRDS requires Stata 17 & a **JBDC driver**, which you must install separately. Please refer to 02_connect_wrds.do or **01_setup_build.do** for further information.
 
 -   **Quarto**: You can knit the .qmd-file from doc (**paper_stata.qmd**) once you carried out the analyses at code/stata. A future version of this repository is scheduled to build the respective dependencies right away. Even if you don't work with R & RStudio in your research projects, you should want to install it at your PC.
 
@@ -18,9 +20,7 @@ This repository extends [trr266/treat](<https://github.com/trr266/treat>) to mul
 
 This all comes on top from what you already know from trr266/treat. Please refer to this repository for further details! However, please note that this repository is work in progress:
 
--   A Stata-specific MAKE file is in need of being written & therefore, you will have to run the .do-files manually (you could also consider the fake make part in 01_setup.do).
-
--   Currently, you need to copy your working directory into 01_setup.do.
+-   A Stata-specific MAKE file is in need of being written; current work-around: fake it! running 01_setup_build.do will source all .dofiles (irrespective of changes!).
 
 -   For additional issues, see [Issues](https://github.com/arndtupb/multitreat/issues)!
 
