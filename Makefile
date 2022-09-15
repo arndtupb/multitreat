@@ -1,55 +1,64 @@
-# If you are new to Makefiles: https://makefiletutorial.com
+# Let's give this a try
+# Make's Structure: 
+######################
+# TARGET: DEPENDENCY
+#	COMMAND
+######################
+# Use a Tab & not a Whitespace for COMMAND 
 
-PAPER := output/paper.pdf
+PAPER := output/paper_stata.pdf
 
-PRESENTATION := output/presentation.pdf
-
-TARGETS :=  $(PAPER) $(PRESENTATION)
+TARGETS := $(PAPER) 
 
 EXTERNAL_DATA := data/external/fama_french_12_industries.csv \
 	data/external/fama_french_48_industries.csv
 
-WRDS_DATA := data/pulled/cstat_us_sample.rds
+WRDS_DATA := data/pulled/cstat_us_sample.dta
 
-GENERATED_DATA := data/generated/acc_sample.rds
+GENERATED_DATA := data/pulled/cstat_us_tidy.dta 
+#i should change this folder to generated 
 
-RESULTS := output/results.rda
+#RESULTS := data/pulled/cstat_us_final.dta
+#i should change this folder to generated  
+
+DOFILE := "C:\Program Files\Stata17\Stata17SE-64" /e do
+#"C:\Program Files\Stata17\Stata17SE-64.exe" is the .exe file!
+#/opt/stata/stata-mp -b
+#https://stackoverflow.com/questions/14928277/why-does-this-makefile-build-every-dependency-every-time
 
 RSCRIPT := Rscript --encoding=UTF-8
 
-.phony: all clean very-clean dist-clean
+.phony all clean very-clean dist-clean 
 
 all: $(TARGETS)
+#Making multiple targets and you want all of them to run? Make an all target! 
 
 clean:
 	rm -f $(TARGETS)
-	rm -f $(RESULTS)
+	rm -f $(RESULTS) 
 	rm -f $(GENERATED_DATA)
-	
+
 very-clean: clean
 	rm -f $(WRDS_DATA)
 
 dist-clean: very-clean
 	rm config.csv
-	
+
 config.csv:
-	@echo "To start, you need to copy _config.csv to config.csv and edit it"
+	@echo "you need to copy _config.csv to config.csv and edit it"
 	@false
-	
-$(WRDS_DATA): code/R/pull_wrds_data.R code/R/read_config.R config.csv
-	$(RSCRIPT) code/R/pull_wrds_data.R
 
-$(GENERATED_DATA): $(WRDS_DATA) $(EXTERNAL_DATA) code/R/prepare_data.R
-	$(RSCRIPT) code/R/prepare_data.R
+$(WRDS_DATA): code/Stata/02_connect_wrds.do config.csv 
+	$(DOFILE) code/Stata/02_connect_wrds.do 
 
-$(RESULTS):	$(GENERATED_DATA) code/R/do_analysis.R
-	$(RSCRIPT) code/R/do_analysis.R
+$(GENERATED_DATA): $(WRDS_DATA) $(EXTERNAL_DATA) code/Stata/03_tidy_data.do
+	$(DOFILE) code/Stata/03_tidy_data.do
 
-$(PAPER): doc/paper.Rmd doc/references.bib $(RESULTS) 
+$(RESULTS):	$(GENERATED_DATA) code/Stata/04_analyses.do
+	$(DOFILE) code/Stata/04_analyses.do
+
+$(PAPER): doc/paper_stata.qmd doc/references.bib $(RESULTS)
 	$(RSCRIPT) -e 'library(rmarkdown); render("doc/paper.Rmd")'
-	mv doc/paper.pdf output
-	rm -f doc/paper.ttt doc/paper.fff
-	
-$(PRESENTATION): doc/presentation.Rmd $(RESULTS) doc/beamer_theme_trr266.sty
-	$(RSCRIPT) -e 'library(rmarkdown); render("doc/presentation.Rmd")'
-	mv doc/presentation.pdf output
+	#$(call render_doc_fn,doc/paper_stata)
+	mv doc/paper_stata.pdf output
+	#rm -f doc/paper_stata.ttt doc/paper_stata.fff
