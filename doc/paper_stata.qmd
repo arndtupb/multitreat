@@ -48,6 +48,8 @@ header-includes:
 ```{r setup, message=FALSE, warning=FALSE, include=FALSE}
 if (!require(knitr)) {install.packages("knitr")}  
 library(knitr)
+if (!require(rmarkdown)) {install.packages("rmarkdown")}  
+library(rmarkdown)
 opts_chunk$set(fig.pos = 'p') # Places figures on their own pages
 opts_chunk$set(out.width = '80%', dpi=600)
 opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, cache = FALSE)
@@ -103,9 +105,6 @@ Writing a paper with Quarto Markdown allows you to switch between coding languag
 if (!require(devtools)) {install.packages("devtools")}  
 library(devtools)
 if (!require(devtools)) {install_github("hemken/Statamarkdown")}
-```
-
-```{r, echo = FALSE}
 library(Statamarkdown)
 ```
 
@@ -145,6 +144,8 @@ The simulated treatment effect can empirically be identified in the data by empl
 ## Conclusion
 
 Open science rocks and so does causal research in accounting! Learn more about writing in Quarto Markdown at \href{https://quarto.org/docs/guide/}{quarto.org}.
+
+Added text for test.
 
 \newpage
 
