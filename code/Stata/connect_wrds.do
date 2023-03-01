@@ -73,5 +73,3 @@ version 17
 	erase ".\data\pulled\COMPUSTATdynamic.dta"
 	erase ".\data\pulled\COMPUSTATstatic.dta"
 *
-*clear
-*exit

@@ -99,12 +99,11 @@ version 17
 	***************************************************************************************************************************************	
 {	//BUILD 
 	timer on 1
-	do "${path}\code\Stata\02_connect_wrds.do"
-	do "${path}\code\Stata\03_tidy_data.do"
-	do "${path}\code\Stata\04_analyses.do"
+	do "${path}\code\Stata\connect_wrds.do"
+	do "${path}\code\Stata\tidy_data.do"
+	do "${path}\code\Stata\analyses.do"
 	timer off 1
 	timer list
-	*25 Minutes
 }
 *
 clear

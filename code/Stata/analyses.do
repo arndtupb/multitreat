@@ -74,18 +74,19 @@ version 17
 	save ".\data\generated\cstat_us_final.dta", replace 
 *
 {	//Desc. Statistics
-	estpost tabstat y treated post, statistics(n mean sd min median max) columns(statistics)
+	estpost summarize y treated post, d
 	*
-	esttab . using "./output/stata_descstats.tex", replace ///
-	  cells("mean sd min p50 max") ///
+	esttab using "./output/stata_descstats.tex", replace ///
+	cells("mean sd min p50 max")	///
 	  title("Descriptive Statistics") ///
 	  nonumbers nogaps ///
-	  coeflabels(y "\$\frac{sales}{lagged\,total\,assets}\$") ///
+	  coeflabels(y "\$\frac{sales}{lagged\,total\,assets}\$") 	  ///
 	  addnotes("\label{tab:tbl-descstats}")
 *
 }
 *
 {	//Analyses
+	timer on 1
 	csdid y, ivar(gvkey) time(fyear) gvar(first_treatment) method(dripw)
 	estat all
 	*5 year window around treatment: ATT by Periods
@@ -112,8 +113,8 @@ version 17
 	csdid_plot, group(2008) style(rspike) name(twfe)
 	addplot twfe: , plotregion(fcolor(white)) graphregion(color(white)) legend(off) 
 	graph export  ".\output\stata_fig_twfe.svg", replace
+	timer off 1
+	timer list
 *	
 }
 *
-*clear
-*exit

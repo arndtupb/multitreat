@@ -92,5 +92,3 @@ version 17
 *
 }
 *
-*clear
-*exit
