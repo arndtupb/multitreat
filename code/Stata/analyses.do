@@ -73,6 +73,18 @@ version 17
 *
 	save ".\data\generated\cstat_us_final.dta", replace 
 *
+{	//Desc. Statistics
+	estpost tabstat y treated post, statistics(n mean sd min median max) columns(statistics)
+	*
+	esttab . using "./output/stata_descstats.tex", replace ///
+	  cells("mean sd min p50 max") ///
+	  title("Descriptive Statistics") ///
+	  nonumbers nogaps ///
+	  coeflabels(y "\$\frac{sales}{lagged\,total\,assets}\$") ///
+	  addnotes("\label{tab:tbl-descstats}")
+*
+}
+*
 {	//Analyses
 	csdid y, ivar(gvkey) time(fyear) gvar(first_treatment) method(dripw)
 	estat all
@@ -104,4 +116,4 @@ version 17
 }
 *
 *clear
-exit
+*exit

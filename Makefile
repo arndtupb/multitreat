@@ -36,7 +36,7 @@ else ifeq ($L,python)
 	DOC_EXT:=qmd
 	render_doc_fn = quarto render $(1).$(DOC_EXT) --quiet
 else ifeq ($L,Stata)
-	CLI:="C:\Program Files\Stata17\Stata17SE-64" do
+	CLI:="C:\Program Files\Stata17\Stata17SE-64" -e do
 	SCRIPT_EXT:=do
 	render_doc_fn = quarto.cmd render $(1).qmd --to pdf
 else
