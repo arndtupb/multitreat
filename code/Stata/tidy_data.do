@@ -7,15 +7,15 @@ version 17
 *
 	*FFI Data
 	*Convert .csv Industry Classification Files to .dta 
-	import delimited "${path}\data\external\fama_french_12_industries.csv", delimiter(comma) varnames(1) stringcols(2) numericcols(1) 
-	save "${path}\data\external\fama_french_12_industries.dta", replace
+	import delimited ".\data\external\fama_french_12_industries.csv", delimiter(comma) varnames(1) stringcols(2) numericcols(1) 
+	save ".\data\external\fama_french_12_industries.dta", replace
 	clear
-	import delimited "${path}\data\external\fama_french_48_industries.csv", delimiter(comma) varnames(1) stringcols(2) numericcols(1) 
-	save "${path}\data\external\fama_french_48_industries.dta", replace
+	import delimited ".\data\external\fama_french_48_industries.csv", delimiter(comma) varnames(1) stringcols(2) numericcols(1) 
+	save ".\data\external\fama_french_48_industries.dta", replace
 	clear
 *
 	*Import Raw Compustat Data
-	use "${path}\data\pulled\cstat_us_sample.dta", clear 
+	use ".\data\pulled\cstat_us_sample.dta", clear 
 *
 {	//Tidy Raw Compustat Data
 *
@@ -62,8 +62,8 @@ version 17
 	drop if sic >= 6000 & sic <= 6999
 *
 	*merge FFI Data
-	merge m:1 sic using "${path}\data\external\fama_french_12_industries.dta",  generate(_merge_ffi12)   
-	merge m:1 sic using "${path}\data\external\fama_french_48_industries.dta",  generate(_merge_ffi48)   
+	merge m:1 sic using ".\data\external\fama_french_12_industries.dta",  generate(_merge_ffi12)   
+	merge m:1 sic using ".\data\external\fama_french_48_industries.dta",  generate(_merge_ffi48)   
 	keep if _merge_ffi12 == 3 & _merge_ffi48 == 3
 	drop _merge_ffi12 
 	drop _merge_ffi48
@@ -86,11 +86,9 @@ version 17
 }
 *
 {	//Save Tidy Data
-	save "${path}\data\pulled\cstat_us_tidy.dta", replace 
-	erase "${path}\data\external\fama_french_12_industries.dta"
-	erase "${path}\data\external\fama_french_48_industries.dta"
+	save ".\data\generated\cstat_us_tidy.dta", replace 
+	erase ".\data\external\fama_french_12_industries.dta"
+	erase ".\data\external\fama_french_48_industries.dta"
 *
 }
 *
-clear
-exit

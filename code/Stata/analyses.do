@@ -6,7 +6,7 @@ version 17
 ****************************************************
 *
 	*Import Tidy Compustat Data
-	use "${path}\data\pulled\cstat_us_tidy.dta", clear 
+	use ".\data\generated\cstat_us_tidy.dta", clear 
 *
 {	//Limit Sample to 25 Years of Observations (done for ease of computation)
 	drop if fyear < 1996 
@@ -71,14 +71,27 @@ version 17
 *
 }
 *
-	save "${path}\data\pulled\cstat_us_final.dta", replace 
+	save ".\data\generated\cstat_us_final.dta", replace 
+*
+{	//Desc. Statistics
+	estpost summarize y treated post, d
+	*
+	esttab using "./output/stata_descstats.tex", replace ///
+	cells("mean sd min p50 max")	///
+	  title("Descriptive Statistics") ///
+	  nonumbers nogaps ///
+	  coeflabels(y "\$\frac{sales}{lagged\,total\,assets}\$") 	  ///
+	  addnotes("\label{tab:tbl-descstats}")
+*
+}
 *
 {	//Analyses
+	timer on 1
 	csdid y, ivar(gvkey) time(fyear) gvar(first_treatment) method(dripw)
 	estat all
 	*5 year window around treatment: ATT by Periods
 	estat event, window(-5 5) estore(event)
-	esttab event using "${path}\output\stata_tbl_twfe.tex", replace /// 
+	esttab event using ".\output\stata_tbl_twfe.tex", replace /// 
 		se(3) nostar noobs nogaps /// 
 		coeflabels(Pre_avg "Pretreatment Average" ///
 					Post_avg "Posttreatment Average" ///
@@ -99,9 +112,9 @@ version 17
 	graph drop _all
 	csdid_plot, group(2008) style(rspike) name(twfe)
 	addplot twfe: , plotregion(fcolor(white)) graphregion(color(white)) legend(off) 
-	graph export  "${path}\output\stata_fig_twfe.svg", replace
+	graph export  ".\output\stata_fig_twfe.svg", replace
+	timer off 1
+	timer list
 *	
 }
 *
-*clear
-exit

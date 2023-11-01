@@ -20,8 +20,8 @@ version 17
 	local classname "org.postgresql.Driver"
 	local url "jdbc:postgresql://wrds-pgdata.wharton.upenn.edu:9737/wrds?ssl=require&sslfactory=org.postgresql.ssl.NonValidatingFactory"
 	// DANGER ZONE
-	*confirm file "${path}\config.csv"
-	import delimited "${path}\config.csv", varnames(nonames) rowrange(19)
+	*confirm file ".\config.csv"
+	import delimited ".\config.csv", varnames(nonames) rowrange(19)
 	local wrds_user = v2[1]
 	*display "`wrds_user'"
 	local wrds_pwd = v2[2]
@@ -55,23 +55,21 @@ version 17
 	display "pulling dynamic Compustat data ... "
 	jdbc load, exec("SELECT gvkey, conm, cik, fyear, datadate, indfmt, sich, consol, popsrc, datafmt, curcd, curuscn, fyr, act, ap, aqc, aqs, acqsc, at, ceq, che, cogs, csho, dlc, dp, dpc, dt, dvpd, exchg, gdwl, ib, ibc, intan, invt, lct, lt, ni, capx, oancf, ivncf, fincf, oiadp, pi, ppent, ppegt, rectr, sale, seq, txt, xint, xsga, costat, mkvalt, prcc_f,recch, invch, apalch, txach, aoloch, gdwlip, spi, wdp, rcp FROM comp_na_daily_all.funda WHERE consol='C' and (indfmt='INDL' or indfmt='FS') and datafmt='STD' and popsrc='D'")
 *
-	save "${path}\data\pulled\COMPUSTATdynamic.dta", replace
+	save ".\data\pulled\COMPUSTATdynamic.dta", replace
 *
 *Static Variables
 	clear
 	display "pulling static Compustat data ... "
 	jdbc load, exec("SELECT gvkey, loc, sic, spcindcd, ipodate, fic FROM comp_na_daily_all.company")
 *
-	save "${path}\data\pulled\COMPUSTATstatic.dta", replace
+	save ".\data\pulled\COMPUSTATstatic.dta", replace
 *
 *Merge Dynamic & Static Data
-	merge 1:m gvkey using "${path}\data\pulled\COMPUSTATdynamic.dta"
+	merge 1:m gvkey using ".\data\pulled\COMPUSTATdynamic.dta"
 	drop if _merge != 3 
 	drop _merge
 *
-	save "${path}\data\pulled\cstat_us_sample.dta", replace
-	erase "${path}\data\pulled\COMPUSTATdynamic.dta"
-	erase "${path}\data\pulled\COMPUSTATstatic.dta"
+	save ".\data\pulled\cstat_us_sample.dta", replace
+	erase ".\data\pulled\COMPUSTATdynamic.dta"
+	erase ".\data\pulled\COMPUSTATstatic.dta"
 *
-clear
-exit

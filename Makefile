@@ -1,55 +1,79 @@
-# If you are new to Makefiles: https://makefiletutorial.com
-
-PAPER := output/paper.pdf
-
-PRESENTATION := output/presentation.pdf
-
-TARGETS :=  $(PAPER) $(PRESENTATION)
-
+######################
+# TARGET: DEPENDENCY
+#	COMMAND
+######################
+# Use a tab & not whitespaces for COMMAND 
+#
+#Set L to "python", "Stata" or "R" 
+L?=Stata
+#
+PAPER := output/paper_stata.pdf
+#
+TARGETS := $(PAPER) 
+#
 EXTERNAL_DATA := data/external/fama_french_12_industries.csv \
 	data/external/fama_french_48_industries.csv
-
-WRDS_DATA := data/pulled/cstat_us_sample.rds
-
-GENERATED_DATA := data/generated/acc_sample.rds
-
-RESULTS := output/results.rda
-
-RSCRIPT := Rscript --encoding=UTF-8
-
-.phony: all clean very-clean dist-clean
-
+#
+WRDS_DATA := data/pulled/cstat_us_sample.dta
+#
+GENERATED_DATA := data/generated/cstat_us_tidy.dta 
+#
+RESULTS := data/generated/cstat_us_final.dta
+#
+#
+ifeq ($L,R)
+	CLI:=Rscript --encoding=UTF-8
+	SCRIPT_EXT:=R
+	DATA_EXT:=rds
+	RESULT_EXT:=rda
+	DOC_EXT:=Rmd
+	render_doc_fn = $(CLI) -e 'library(rmarkdown); render("${1}.$(DOC_EXT)")'
+else ifeq ($L,python)
+	CLI:=python
+	SCRIPT_EXT:=py
+	DATA_EXT:=csv
+	RESULT_EXT:=json
+	DOC_EXT:=qmd
+	render_doc_fn = quarto render $(1).$(DOC_EXT) --quiet
+else ifeq ($L,Stata)
+	CLI:="C:\Program Files\Stata17\Stata17SE-64" -e do
+	SCRIPT_EXT:=do
+	render_doc_fn = quarto.cmd render $(1).qmd --to pdf
+else
+$(error Langauge(L) has to be python, Stata or R; also please make sure that there are no trailing white space.)
+endif
+#
+#
+.phony: all, clean very-clean dist-clean 
+#
 all: $(TARGETS)
-
+#Making multiple targets and you want all of them to run? Make an all target! 
+#
 clean:
 	rm -f $(TARGETS)
-	rm -f $(RESULTS)
+	rm -f $(RESULTS) 
 	rm -f $(GENERATED_DATA)
-	
+#
 very-clean: clean
 	rm -f $(WRDS_DATA)
-
+#
 dist-clean: very-clean
 	rm config.csv
-	
+#
 config.csv:
-	@echo "To start, you need to copy _config.csv to config.csv and edit it"
+	@echo "you need to copy _config.csv to config.csv and edit it"
 	@false
-	
-$(WRDS_DATA): code/R/pull_wrds_data.R code/R/read_config.R config.csv
-	$(RSCRIPT) code/R/pull_wrds_data.R
-
-$(GENERATED_DATA): $(WRDS_DATA) $(EXTERNAL_DATA) code/R/prepare_data.R
-	$(RSCRIPT) code/R/prepare_data.R
-
-$(RESULTS):	$(GENERATED_DATA) code/R/do_analysis.R
-	$(RSCRIPT) code/R/do_analysis.R
-
-$(PAPER): doc/paper.Rmd doc/references.bib $(RESULTS) 
-	$(RSCRIPT) -e 'library(rmarkdown); render("doc/paper.Rmd")'
-	mv doc/paper.pdf output
-	rm -f doc/paper.ttt doc/paper.fff
-	
-$(PRESENTATION): doc/presentation.Rmd $(RESULTS) doc/beamer_theme_trr266.sty
-	$(RSCRIPT) -e 'library(rmarkdown); render("doc/presentation.Rmd")'
-	mv doc/presentation.pdf output
+#
+$(WRDS_DATA): code/Stata/connect_wrds.$(SCRIPT_EXT) config.csv
+	$(CLI) code/Stata/connect_wrds.$(SCRIPT_EXT) 
+#
+$(GENERATED_DATA): $(WRDS_DATA) $(EXTERNAL_DATA) code/Stata/tidy_data.$(SCRIPT_EXT) 
+	$(CLI) code/Stata/tidy_data.$(SCRIPT_EXT) 
+#
+$(RESULTS): $(GENERATED_DATA) code/Stata/analyses.$(SCRIPT_EXT) 
+	$(CLI) code/Stata/analyses.$(SCRIPT_EXT) 
+#
+$(PAPER): doc/paper_stata.qmd doc/references.bib $(RESULTS)
+	$(call render_doc_fn,doc/paper_stata)
+	mv doc/paper_stata.pdf output
+	rm -f doc/paper_stata.ttt doc/paper_stata.fff

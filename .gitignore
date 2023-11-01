@@ -47,3 +47,6 @@ README.html
 
 # Config file - potentially containing private data
 config.csv
+
+#log-files
+*.log
