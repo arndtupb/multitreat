@@ -1,20 +1,22 @@
 ## Extend the TRR 266 Template for Reproducible Empirical Accounting Research to Multiple Coding Languages
 
-This repository extends [**trr266/treat**](https://github.com/trr266/treat) to multiple coding languages. In particular, **code/stata** contains .**do-files** for conducting reproducible accounting research with Stata. It is showcased how to download data from Compustat via WRDS (using Stata 17 under Windows) & how to implement a causal research design when facing an (hypothetical) staggered adoption of a treatment among (randomly selected) firms. **doc** contains a **Quarto Markdown file** (stata_paper.qmd) that ties the output from Stata to a scientific paper. You can use the .qmd-file as template for any of your upcoming paper projects.
+This repository extends [**trr266/treat**](https://github.com/trr266/treat) to multiple coding languages. In particular, **code/stata** contains .**do-files** for conducting reproducible accounting research with Stata. It is showcased how to download data from Compustat via WRDS (using Stata 18 under Windows) & how to implement a commonly employed research design when observing an (hypothetical) staggered adoption of a treatment among (randomly selected) firms. **doc** contains a **Quarto Markdown file** (stata_paper.qmd) that ties the output from Stata to a scientific paper. You can use the .qmd-file as template for any of your upcoming paper projects.
 
 ### How to Build
 
--   **Stata 17**: The software is developed under **Windows** and requires a Windows environment to run successfully.
+-   **Makefile**: The latest update to the code includes a .make-file that executes the analysis and compiles the paper: as this is work in progress, any reports on bugs are greatly appreciated!
+
+-   Build "by hand" using **Stata 18**: The software is developed under **Windows** and requires a Windows environment to run successfully (the minimum requirement of Stata is its version 17).
 
     -   **Working Directory**: I suggest that you copy the path to the repository ["C:\\....\\multitreat"] on your local drive to **01_setup_build.do**. Otherwise, the code will respectively run in case you opened the .dofile with a double click (Stata neither knows project-files nor where .dofiles are stored).
 
     -   **Packages**: You will need to install some of the many excellent user written packages for Stata. These packages (and the way of how to install them from ssc) are highlighted at the first lines of **01_setup_build.do** but will not run automatically.
 
-    -   Access to data from **WRDS** requires a user account and a (institutional) subscription to the Compustat database. Enter your **user credentials** to **config.csv**. Note that config.csv is included in .gitignore, so that your confidential data are excluded from being pushed to the repository. Never push credentials to GitHub (there is no way to undo this!).
+    -   Access to data from **WRDS** requires a user account and a (institutional) subscription to the Compustat database. Enter your **user credentials** to **config.csv**. Note that config.csv is included in .gitignore, so that your confidential data are excluded from being pushed to the repository. Never push credentials to GitHub (there is no way to undo this!). Also, note that WRDS introduced 2FA: you will receive a push notification to permit the code to execute. 
 
-    -   Access to WRDS requires Stata 17 & a **JBDC driver**, which you must install separately. Please refer to 02_connect_wrds.do or **01_setup_build.do** for further information.
+    -   Access to WRDS requires Stata 17/18 & a **JBDC driver**, which you must install separately. Please refer to 02_connect_wrds.do or **01_setup_build.do** for further information.
 
--   **Quarto**: You can knit the .qmd-file from doc (**paper_stata.qmd**) once you carried out the analyses at code/stata. A future version of this repository is scheduled to build the respective dependencies right away. Even if you don't work with R & RStudio in your research projects, you should want to install it at your PC.
+-   **Quarto**: You can knit the .qmd-file from doc (**paper_stata.qmd**) once you carried out the analyses at code/stata (alternatively, the .make-file does this for you right away). 
 
 ### Issues
 
