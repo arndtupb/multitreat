@@ -8,23 +8,19 @@ This repository extends [**trr266/treat**](https://github.com/trr266/treat) to m
 
 -   Build "by hand" using **Stata 18**: The software is developed under **Windows** and requires a Windows environment to run successfully (the minimum requirement of Stata is its version 17).
 
-    -   **Working Directory**: I suggest that you copy the path to the repository ["C:\\....\\multitreat"] on your local drive to **01_setup_build.do**. Otherwise, the code will respectively run in case you opened the .dofile with a double click (Stata neither knows project-files nor where .dofiles are stored).
+    -   **Working Directory**: I suggest that you copy the path to the repository ["C:\\....\\multitreat"] on your local drive to **alternative_setup_and_build.do**. Otherwise, the code will respectively run in case you opened the .dofile with a double click (Stata neither knows project-files nor where .dofiles are stored).
 
     -   **Packages**: You will need to install some of the many excellent user written packages for Stata. These packages (and the way of how to install them from ssc) are highlighted at the first lines of **01_setup_build.do** but will not run automatically.
 
     -   Access to data from **WRDS** requires a user account and a (institutional) subscription to the Compustat database. Enter your **user credentials** to **config.csv**. Note that config.csv is included in .gitignore, so that your confidential data are excluded from being pushed to the repository. Never push credentials to GitHub (there is no way to undo this!). Also, note that WRDS introduced 2FA: you will receive a push notification to permit the code to execute. 
 
-    -   Access to WRDS requires Stata 17/18 & a **JBDC driver**, which you must install separately. Please refer to 02_connect_wrds.do or **01_setup_build.do** for further information.
+    -   Access to WRDS requires Stata 17/18 & a **JBDC driver**, which you must install separately. Please refer to 02_connect_wrds.do or **alternative_setup_and_build.do** for further information.
 
 -   **Quarto**: You can knit the .qmd-file from doc (**paper_stata.qmd**) once you carried out the analyses at code/stata (alternatively, the .make-file does this for you right away). 
 
 ### Issues
 
-This all comes on top from what you already know from trr266/treat. Please refer to this repository for further details! However, please note that this repository is work in progress:
-
--   A Stata-specific MAKE file is in need of being written; current work-around: fake it! running 01_setup_build.do will source all .dofiles (irrespective of changes!).
-
--   For additional issues, see [Issues](https://github.com/arndtupb/multitreat/issues)!
+This all comes on top from what you already know from trr266/treat. Please refer to this repository for further details! However, please note that this repository is work in progress. For issues, see [Issues](https://github.com/arndtupb/multitreat/issues) and open new ones in case you experience any troubles!
 
 ### Licensing
 
