@@ -1,5 +1,5 @@
 clear
-version 17 
+version 18 
 *
 	***************************************************************************************************************************************
 	*****************************************					SET UP DOFILE 					*******************************************
@@ -67,7 +67,7 @@ version 17
 	*/
 		sysdir set PERSONAL "C:\ado\personal" 	
 	*Path to Stata (assumed, you may need to change this)
-		global pathStata "C:\Program Files\Stata17\StataSE-64\StataSE-64"	
+		global pathStata "C:\Program Files\Stata18\StataSE-64"	
 		global username "`c(username)'"
 		global desktop "C:\Users\\${username}\Desktop"
 		file open mynotes using "C:\Users\\${username}\Desktop\pathStata.txt", text write replace

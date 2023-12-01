@@ -1,5 +1,5 @@
 clear
-version 17 
+version 18 
 *
 ****************************************************
 ******             TREATMENT                ********
@@ -82,6 +82,14 @@ version 17
 	  nonumbers nogaps ///
 	  coeflabels(y "\$\frac{sales}{lagged\,total\,assets}\$") 	  ///
 	  addnotes("\label{tab:tbl-descstats}")
+	 * alternative: .csv file
+	 esttab using "./output/stata_descstats.csv", replace ///
+		cells("mean sd min p50 max")	///
+		title("Descriptive Statistics") ///
+		nonumbers nogaps ///
+		coeflabels(y "\$\frac{sales}{lagged\,total\,assets}\$") 	  ///
+		addnotes("\label{tab:tbl-descstats}")
+	 
 *
 }
 *
