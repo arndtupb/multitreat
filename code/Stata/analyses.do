@@ -82,14 +82,6 @@ version 18
 	  nonumbers nogaps ///
 	  coeflabels(y "\$\frac{sales}{lagged\,total\,assets}\$") 	  ///
 	  addnotes("\label{tab:tbl-descstats}")
-	 * alternative: .csv file
-	 esttab using "./output/stata_descstats.csv", replace ///
-		cells("mean sd min p50 max")	///
-		title("Descriptive Statistics") ///
-		nonumbers nogaps ///
-		coeflabels(y "\$\frac{sales}{lagged\,total\,assets}\$") 	  ///
-		addnotes("\label{tab:tbl-descstats}")
-	 
 *
 }
 *
@@ -97,25 +89,29 @@ version 18
 	timer on 1
 	csdid y, ivar(gvkey) time(fyear) gvar(first_treatment) method(dripw)
 	estat all
+	*ATT 
+	estat simple, estore(ATT)
 	*5 year window around treatment: ATT by Periods
-	estat event, window(-5 5) estore(event)
-	esttab event using ".\output\stata_tbl_twfe.tex", replace /// 
-		se(3) nostar noobs nogaps /// 
-		coeflabels(Pre_avg "Pretreatment Average" ///
-					Post_avg "Posttreatment Average" ///
-					Tm5 "Pretreatment \$t-5\$" ///
+	estat event, window(-5 5) estore(pm5)
+	*Export to .tex:
+	esttab ATT pm5 using ".\output\stata_tbl_twfe.tex", replace /// 
+		b(4) se(4) nostar noobs nogaps drop(Pre_avg Post_avg) /// 
+		coeflabels(Tm5 "Pretreatment \$t-5\$" ///
 					Tm4 "Pretreatment \$t-4\$" ///
 					Tm3 "Pretreatment \$t-3\$" ///
 					Tm2 "Pretreatment \$t-2\$" ///
 					Tm1 "Pretreatment \$t-1\$" ///
 					Tp0 "Treatment" ///
-					Tp1 "Posttreatment \$t1\$" ///
-					Tp2 "Posttreatment \$t2\$" ///
-					Tp3 "Posttreatment \$t3\$" ///
-					Tp4 "Posttreatment \$t4\$" ///
-					Tp5 "Posttreatment \$t5\$") ///
-		title("ATT by Periods Before and After Treatment") mtitles("\$\frac{sales}{lagged\,total\,assets}\$") nonumbers ///
-		addnotes("Presentation limited to a window of 5 periods around treament." "\label{tab:tbl-twfe}")
+					Tp1 "Posttreatment \$t+1\$" ///
+					Tp2 "Posttreatment \$t+2\$" ///
+					Tp3 "Posttreatment \$t+3\$" ///
+					Tp4 "Posttreatment \$t+4\$" ///
+					Tp5 "Posttreatment \$t+5\$") ///
+		title("ATT (aggregated and relative)") mtitles("\$\frac{sales}{lagged\,total\,assets}\$" "\$\frac{sales}{lagged\,total\,assets}\$") nonumbers ///
+		addnotes("You can add more notes." "\label{tab:tbl-twfe}")
+	*Very clean .tex:
+	esttab ATT pm5 using ".\output\stata_tbl_twfe_clean.tex", replace /// 
+		b(4) se(4) nostar noobs nogaps drop(Pre_avg Post_avg) nonumbers 
 	*Visualization: example with 2008-cohort 
 	graph drop _all
 	csdid_plot, group(2008) style(rspike) name(twfe)

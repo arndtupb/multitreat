@@ -125,7 +125,6 @@ rsvg_pdf(svg_file, pdf_file)
   \footnotesize{This figure depicts the ATT for the 2008 treatment cohort. You can add additional information on this plot by editing the .qmd file. Did you notice that the plot is extremely sharp? That happens when you bench .png and .jpeg and use .svg/.pdf as output for figures instead.}
 \end{figure}
 ```
-
 \input{../output/stata_tbl_twfe.tex}
 
 The simulated treatment effect can empirically be identified in the data by employing the recent advances by @CS_2021.[^2] Before you jump to the empirical analyses, however, it's good advice to visualize your data first. While there are many approaches to this, we showcase one. We plot the Average Treatment Effect on the Treated (ATT) for the group of firms which received their treatment in 2008 (aka "2008 Treatment Cohort") in Figure \ref{fig-twfe}. In contrast to the presented coefficients in \ref{tab:tbl-twfe}, the figure is not limited to a window of five years around the treatment. One can easily identify the (stable) treatment effect in the year of treatment and the subsequent years. One can also observe that there is no considerable fluctuation in the pre-periods of the treatment. Table \ref{tab:tbl-twfe} generalizes these visual inferences to our whole sample of treated and control firms.
