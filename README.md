@@ -10,9 +10,9 @@ This repository extends [**trr266/treat**](https://github.com/trr266/treat) to m
 
     -   **Working Directory**: I suggest that you copy the path to the repository ["C:\\....\\multitreat"] on your local drive to **alternative_setup_and_build.do**. Otherwise, the code will respectively run in case you opened the .dofile with a double click (Stata neither knows project-files nor where .dofiles are stored).
 
-    -   **Packages**: You will need to install some of the many excellent user written packages for Stata. These packages (and the way of how to install them from ssc) are highlighted at the first lines of **01_setup_build.do** but will not run automatically.
+    -   **Packages**: You will need to install some of the many excellent user written packages for Stata. These packages (and the way of how to install them from ssc) are highlighted at the first lines of **alternative_setup_and_build.do** but will not run automatically.
 
-    -   Access to data from **WRDS** requires a user account and a (institutional) subscription to the Compustat database. Enter your **user credentials** to **config.csv**. Note that config.csv is included in .gitignore, so that your confidential data are excluded from being pushed to the repository. Never push credentials to GitHub (there is no way to undo this!). Also, note that WRDS introduced 2FA: you will receive a push notification to permit the code to execute. 
+    -   Access to data from **WRDS** requires a user account and a (institutional) subscription to the Compustat database. Enter your **user credentials** to **config.csv** (not (!) **_**config.csv). Note that config.csv is included in .gitignore, so that your confidential data are excluded from being pushed to the repository. Never push credentials to GitHub (there is no way to undo this!). Also, note that WRDS introduced 2FA: you will receive a push notification to permit the code to execute. 
 
     -   Access to WRDS requires Stata 17/18 & a **JBDC driver**, which you must install separately. Please refer to 02_connect_wrds.do or **alternative_setup_and_build.do** for further information.
 
