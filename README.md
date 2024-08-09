@@ -12,9 +12,9 @@ This repository extends [**trr266/treat**](https://github.com/trr266/treat) to m
 
     -   **Packages**: You will need to install some of the many excellent user written packages for Stata. These packages (and the way of how to install them from ssc) are highlighted at the first lines of **alternative_setup_and_build.do** but will not run automatically.
 
-    -   Access to data from **WRDS** requires a user account and a (institutional) subscription to the Compustat database. Enter your **user credentials** to **config.csv** (not (!) **_**config.csv). Note that config.csv is included in .gitignore, so that your confidential data are excluded from being pushed to the repository. Never push credentials to GitHub (there is no way to undo this!). Also, note that WRDS introduced 2FA: you will receive a push notification to permit the code to execute. 
+    -   Access to data from **WRDS** requires a user account and a (institutional) subscription to the Compustat database. Enter your **user credentials** to **config.csv** (not (!) **_** config.csv). Note that config.csv is included in .gitignore, so that your confidential data are excluded from being pushed to the repository. Never push credentials to GitHub (there is no way to undo this!). Also, note that WRDS introduced 2FA: you will receive a push notification to permit the code to execute. 
 
-    -   Access to WRDS requires Stata 17/18 & a **JBDC driver**, which you must install separately. Please refer to 02_connect_wrds.do or **alternative_setup_and_build.do** for further information.
+    -   Access to WRDS requires Stata 17/18 & a **JBDC driver**, which you must install separately. Please refer to connect_wrds.do or **alternative_setup_and_build.do** for further information.
 
 -   **Quarto**: You can knit the .qmd-file from doc (**paper_stata.qmd**) once you carried out the analyses at code/stata (alternatively, the .make-file does this for you right away). 
 
